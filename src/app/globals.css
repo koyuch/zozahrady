@@ -1,0 +1,156 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-serif: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-sans:
+    var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Botanical Palette - Architecture Rules */
+  --background: #faf9f6;
+  --foreground: #1f2937;
+  --primary: #4a5d23;
+  --primary-foreground: #faf9f6;
+
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+
+  --secondary: #e9efe1;
+  --secondary-foreground: #2c3914;
+
+  --muted: #f2f0eb;
+  --muted-foreground: #5c6753;
+
+  --accent: #e9efe1;
+  --accent-foreground: #2c3914;
+
+  --destructive: #b91c1c;
+  --destructive-foreground: #ffffff;
+
+  --border: #e5e3dc;
+  --input: #e5e3dc;
+  --ring: #4a5d23;
+
+  --radius: 0.5rem;
+
+  --sidebar: #faf9f6;
+  --sidebar-foreground: #1f2937;
+  --sidebar-primary: #4a5d23;
+  --sidebar-primary-foreground: #faf9f6;
+  --sidebar-accent: #e9efe1;
+  --sidebar-accent-foreground: #2c3914;
+  --sidebar-border: #e5e3dc;
+  --sidebar-ring: #4a5d23;
+
+  --chart-1: #4a5d23;
+  --chart-2: #7a9346;
+  --chart-3: #b5c989;
+  --chart-4: #d88258;
+  --chart-5: #6b7280;
+}
+
+.dark {
+  --background: #141a10;
+  --foreground: #faf9f6;
+  --primary: #8ca953;
+  --primary-foreground: #141a10;
+
+  --card: #1b2317;
+  --card-foreground: #faf9f6;
+  --popover: #1b2317;
+  --popover-foreground: #faf9f6;
+
+  --secondary: #273420;
+  --secondary-foreground: #d3e2be;
+
+  --muted: #222b1c;
+  --muted-foreground: #a3b19b;
+
+  --accent: #273420;
+  --accent-foreground: #d3e2be;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #2d3a26;
+  --input: #2d3a26;
+  --ring: #8ca953;
+
+  --sidebar: #141a10;
+  --sidebar-foreground: #faf9f6;
+  --sidebar-primary: #8ca953;
+  --sidebar-primary-foreground: #141a10;
+  --sidebar-accent: #273420;
+  --sidebar-accent-foreground: #d3e2be;
+  --sidebar-border: #2d3a26;
+  --sidebar-ring: #8ca953;
+
+  --chart-1: #8ca953;
+  --chart-2: #aec878;
+  --chart-3: #5b7230;
+  --chart-4: #e29d76;
+  --chart-5: #9ca3af;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+}
