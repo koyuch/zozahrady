@@ -1,25 +1,31 @@
 # Dependencies
-node_modules/
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
 .pnpm-store/
 
-# Build output
-.next/
-out/
-dist/
+# IDE / Editor
+/.idea/*
+!/.idea/runConfigurations
+.vscode/
+*.swp
+*.swo
 
-# Environment variables — never commit real secrets
-.env
-.env.local
-.env.*.local
+# Testing & Coverage
+/coverage
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
 
-# Payload CMS
-src/payload-types.ts
+# Next.js & Build
+/.next/
+/out/
+/build
+/dist
 
-# TypeScript
-*.tsbuildinfo
-next-env.d.ts
-
-# Misc
+# Misc & Logs
 .DS_Store
 *.pem
 npm-debug.log*
@@ -27,16 +33,25 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Editor directories
-.vscode/
-.idea/
-*.swp
-*.swo
+# Environment files
+.env
+.env*.local
 
-# Nix
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Payload uploads & generated types
+/media
+
+# Nix & direnv
 result
 result-*
+.direnv/
+.pgdata/
 
-# Coverage
-coverage/
-.nyc_output/
+# AI tool cache
+.claude/
