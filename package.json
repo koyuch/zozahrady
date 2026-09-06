@@ -15,7 +15,9 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
-    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "type-check": "tsc --noEmit",
+    "prepare": "husky"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.88.0",
@@ -32,18 +34,21 @@
     "sharp": "0.35.4"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
     "@playwright/test": "1.63.0",
     "@testing-library/react": "16.3.3",
     "@types/node": "26.4.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
     "@vitejs/plugin-react": "6.1.1",
-    "eslint": "^10.10.0",
+    "eslint": "^9.39.5",
     "eslint-config-next": "16.3.4",
+    "husky": "^9.1.7",
     "jsdom": "30.0.1",
+    "lint-staged": "^17.5.0",
     "prettier": "^3.9.6",
     "tsx": "4.23.13",
-    "typescript": "7.0.2",
+    "typescript": "6.0.3",
     "vite-tsconfig-paths": "6.1.1",
     "vitest": "5.0.0"
   },
@@ -56,6 +61,16 @@
       "sharp",
       "esbuild",
       "unrs-resolver"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "bash -c 'tsc --noEmit'"
+    ],
+    "*.{js,jsx,json,css,md}": [
+      "prettier --write"
     ]
   }
 }
