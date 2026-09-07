@@ -1,7 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { Flower2, Heart, Sparkles, ArrowRight } from 'lucide-react'
-import { getLocale, LOCALES } from '@/lib/locale'
+import { LOCALES } from '@/lib/locale'
+import { getLocale } from '@/lib/locale-server'
 
 export default async function HomePage() {
   const locale = await getLocale()

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Inter, Playfair_Display } from 'next/font/google'
-import { getLocale, LOCALES } from '@/lib/locale'
+import { LOCALES } from '@/lib/locale'
+import { getLocale } from '@/lib/locale-server'
 import { Navbar } from '@/components/navbar/Navbar'
 import './globals.css'
 

@@ -2,7 +2,8 @@
 
 import React, { useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { Locale, LOCALES, setLocaleAction } from '@/lib/locale'
+import { LOCALES, type Locale } from '@/lib/locale'
+import { setLocaleAction } from '@/lib/locale-actions'
 
 interface LocaleSwitcherProps {
   currentLocale: Locale

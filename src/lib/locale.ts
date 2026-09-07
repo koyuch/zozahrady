@@ -1,7 +1,3 @@
-'use server'
-
-import { cookies } from 'next/headers'
-
 export type Locale = 'sk_eur' | 'cz_czk'
 
 export const DEFAULT_LOCALE: Locale = 'sk_eur'
@@ -36,23 +32,4 @@ export const LOCALES: Record<Locale, LocaleConfig> = {
     currencySymbol: 'Kč',
     flag: '🇨🇿',
   },
-}
-
-export async function getLocale(): Promise<Locale> {
-  const cookieStore = await cookies()
-  const val = cookieStore.get(LOCALE_COOKIE_NAME)?.value as Locale | undefined
-  if (val && val in LOCALES) {
-    return val
-  }
-  return DEFAULT_LOCALE
-}
-
-export async function setLocaleAction(locale: Locale): Promise<void> {
-  if (!LOCALES[locale]) return
-  const cookieStore = await cookies()
-  cookieStore.set(LOCALE_COOKIE_NAME, locale, {
-    path: '/',
-    maxAge: 60 * 60 * 24 * 365, // 1 year
-    sameSite: 'lax',
-  })
 }

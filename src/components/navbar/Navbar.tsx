@@ -1,7 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { Flower2 } from 'lucide-react'
-import { Locale, getLocale } from '@/lib/locale'
+import type { Locale } from '@/lib/locale'
+import { getLocale } from '@/lib/locale-server'
 import { LocaleSwitcher } from './LocaleSwitcher'
 
 interface NavbarProps {
