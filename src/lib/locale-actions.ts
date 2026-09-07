@@ -6,7 +6,7 @@ import { LOCALES, LOCALE_COOKIE_NAME } from './locale'
 import type { Locale } from './locale'
 
 export async function setLocaleAction(locale: Locale): Promise<void> {
-  if (!LOCALES[locale]) return
+  if (!Object.hasOwn(LOCALES, locale)) return
   const cookieStore = await cookies()
   cookieStore.set(LOCALE_COOKIE_NAME, locale, {
     path: '/',
