@@ -2,6 +2,7 @@ import React from 'react'
 import { Inter, Playfair_Display } from 'next/font/google'
 import { LOCALES } from '@/lib/locale'
 import { getLocale } from '@/lib/locale-server'
+import { getPayloadClient } from '@/lib/payload'
 import { Navbar } from '@/components/navbar/Navbar'
 import './globals.css'
 
@@ -28,10 +29,17 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const locale = await getLocale()
   const localeConfig = LOCALES[locale]
 
+  const payload = await getPayloadClient()
+  const siteSettings = await payload.findGlobal({ slug: 'site-settings' })
+
   return (
     <html lang={localeConfig.lang} className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen bg-background text-foreground antialiased font-sans flex flex-col">
-        <Navbar initialLocale={locale} />
+        <Navbar
+          initialLocale={locale}
+          instagramUrl={siteSettings?.instagramUrl ?? undefined}
+          facebookUrl={siteSettings?.facebookUrl ?? undefined}
+        />
         <main className="flex-1">{children}</main>
       </body>
     </html>
