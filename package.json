@@ -22,6 +22,8 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
+    "@neon/config": "^1.7.2",
+    "@neon/env": "^1.4.3",
     "@payloadcms/db-postgres": "3.88.0",
     "@payloadcms/next": "3.88.0",
     "@payloadcms/richtext-lexical": "3.88.0",
@@ -60,6 +62,7 @@
     "husky": "^9.1.7",
     "jsdom": "30.0.1",
     "lint-staged": "^17.5.0",
+    "neon": "^5.0.0",
     "prettier": "^3.9.6",
     "tsx": "4.23.13",
     "typescript": "6.0.3",

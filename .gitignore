@@ -55,3 +55,4 @@ result-*
 
 # AI tool cache
 .claude/
+.neon
