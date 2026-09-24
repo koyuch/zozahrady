@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    # Ephemeral Postgres (matches local flake.nix postgresql_16) — fresh schema
+    # is applied by `pnpm payload migrate` below. No real env secrets involved.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: zozahrady
+          POSTGRES_PASSWORD: zozahrady
+          POSTGRES_DB: zozahrady_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U zozahrady"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URI: postgresql://zozahrady:zozahrady@localhost:5432/zozahrady_test
+      # Throwaway signing key for the ephemeral test database only — not a real secret.
+      PAYLOAD_SECRET: ci-only-throwaway-jwt-key-0123456789abcdef
+      NEXT_PUBLIC_SERVER_URL: http://localhost:3000
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type-check
+        run: pnpm type-check
+
+      - name: Apply migrations
+        run: pnpm payload migrate
+
+      - name: Integration tests
+        run: pnpm test:int
