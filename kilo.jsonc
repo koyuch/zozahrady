@@ -13,14 +13,24 @@
     "vercel": {
       "type": "remote",
       "url": "https://mcp.vercel.com",
+      "enabled": true,
     },
     "cloudinary": {
       "type": "remote",
       "url": "https://asset-management.mcp.cloudinary.com/mcp",
+      "enabled": true,
     },
+    // GitHub's MCP auth server does not support dynamic client registration
+    // (Kilo's OAuth flow), so authenticate with a PAT via header instead.
+    // The token is gh's (gh auth login), cached to ~/.cache/zozahrady/github-mcp.pat
+    // by direnv — kilo may be launched outside the direnv shell, so {file:...}
+    // is used instead of {env:...} (which only works when kilo inherits direnv).
     "github": {
       "type": "remote",
       "url": "https://api.githubcopilot.com/mcp",
+      "headers": {
+        "Authorization": "Bearer {file:~/.cache/zozahrady/github-mcp.pat}",
+      },
     },
     "playwright": {
       "type": "local",
