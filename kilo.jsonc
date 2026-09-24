@@ -1,0 +1,41 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+
+  // Project MCP servers — remote ones authenticate via interactive OAuth
+  // (first tool call opens a browser flow; tokens are stored by Kilo, not in repo).
+  // Headless fallback: replace oauth with a headers block using {env:NEON_API_KEY} style
+  // interpolation — see https://opencode.ai/docs/config/#variables — never hardcode keys.
+  "mcp": {
+    "neon": {
+      "type": "remote",
+      "url": "https://mcp.neon.tech/mcp",
+    },
+    "vercel": {
+      "type": "remote",
+      "url": "https://mcp.vercel.com",
+    },
+    "cloudinary": {
+      "type": "remote",
+      "url": "https://asset-management.mcp.cloudinary.com/mcp",
+    },
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "-y", "@playwright/mcp@latest"],
+    },
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp@latest"],
+    },
+  },
+
+  "permission": {
+    "bash": {
+      "pnpm lint *": "allow",
+      "pnpm type-check *": "allow",
+      "pnpm test:int *": "allow",
+      "pnpm payload migrate:status *": "allow",
+      // intentionally NOT allowed: pnpm dev (long-running), pnpm build (applies migrations),
+      // pnpm seed, pnpm payload migrate:create, pnpm payload migrate — keep asking
+    },
+  },
+}
