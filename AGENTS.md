@@ -10,7 +10,7 @@ Human setup detail lives in [README.md](README.md); on-demand deep docs live in 
 - **Database:** PostgreSQL (Neon.tech serverless for prod, local Postgres via Nix shell)
 - **Styling:** Tailwind CSS + shadcn/ui (centralized CSS variables)
 - **Package Manager:** `pnpm` (enforced via corepack and package.json)
-- **Runtime:** Node.js v26 (`.nvmrc` + NixOS `flake.nix`)
+- **Runtime:** Node.js v24 LTS (`.nvmrc` + NixOS `flake.nix`; matches Vercel's default runtime)
 - **Pre-commit:** Husky + lint-staged (ESLint, Prettier, `tsc --noEmit`)
 
 ## Dependency Management
@@ -21,7 +21,7 @@ Human setup detail lives in [README.md](README.md); on-demand deep docs live in 
 ## Workflow Commands
 
 Shell tools (`pnpm`, `node`) come from the local Nix flake. If your shell doesn't have them,
-load the dev environment first: `direnv allow && direnv allow && eval "$(direnv export bash)"`,
+load the dev environment first: `eval "$(direnv export bash)" && <command>` (with optional "prefix" `direnv allow` - if needed after .envrc change),
 or wrap commands with `nix develop -c <command>` / `direnv exec . <command>`.
 
 If a specific tool is missing from the flake, either add it to `flake.nix` (when it's useful

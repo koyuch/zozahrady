@@ -1,5 +1,5 @@
 {
-  description = "zozahrady — Flower Farm dev shell (Node.js 26 + pnpm + PostgreSQL)";
+  description = "zozahrady — Flower Farm dev shell (Node.js 24 + pnpm + PostgreSQL)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -21,7 +21,7 @@
           name = "zozahrady";
 
           buildInputs = with pkgs; [
-            nodejs_26        # Node.js 26.x (LTS)
+            nodejs_24        # Node.js 24.x (LTS) — matches Vercel runtime
             pnpm             # pnpm package manager
             git
             postgresql_16    # PostgreSQL for local dev
