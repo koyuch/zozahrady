@@ -114,6 +114,12 @@ Production runs on Vercel (Next.js auto-detected) against the Neon Postgres **`p
 
 The app supports **Slovak (SK / EUR)** and **Czech (CZ / CZK)** via a cookie-based locale toggle (`sk_eur` vs `cz_czk`) in the Navbar.
 
+## AI Agent Tooling
+
+- **[AGENTS.md](AGENTS.md)** is the rules entrypoint for all AI agents (Kilo, Claude Code via `CLAUDE.md` pointer).
+- **`.agents/skills/`** holds on-demand deep docs (Neon, Payload CMS) — loaded only when a task touches the topic.
+- **Project MCP servers** (Neon, Vercel, Cloudinary, Playwright, Context7) are configured in [`kilo.jsonc`](kilo.jsonc). Remote servers authenticate via interactive OAuth on first use (browser flow; tokens stored by Kilo, not in the repo).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
