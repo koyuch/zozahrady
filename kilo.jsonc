@@ -18,6 +18,10 @@
       "type": "remote",
       "url": "https://asset-management.mcp.cloudinary.com/mcp",
     },
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp",
+    },
     "playwright": {
       "type": "local",
       "command": ["npx", "-y", "@playwright/mcp@latest"],

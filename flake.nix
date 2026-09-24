@@ -25,6 +25,10 @@
             pnpm             # pnpm package manager
             git
             postgresql_16    # PostgreSQL for local dev
+            gh               # GitHub CLI (PRs, CI runs: gh run watch/list)
+            ripgrep          # fast code search (rg)
+            jq               # JSON processing
+            yq               # YAML/XML processing
           ];
 
           shellHook = ''
