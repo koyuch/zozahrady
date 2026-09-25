@@ -44,11 +44,24 @@ function FacebookIcon({ className }: { className?: string }) {
   )
 }
 
+function socialHandle(url: string | undefined): string | null {
+  if (!url) return null
+  try {
+    const path = new URL(url).pathname.split('/').filter(Boolean)
+    const handle = path[0]
+    return handle ? (handle.startsWith('@') ? handle : `@${handle}`) : null
+  } catch {
+    return null
+  }
+}
+
 export function ContactSection({ settings, isSk }: ContactSectionProps) {
   const email = settings?.contactEmail ?? 'ahoj@zozahrady.sk'
   const phone = settings?.contactPhone ?? '+421 900 000 000'
   const instagram = settings?.instagramUrl ?? 'https://instagram.com/zozahrady'
   const facebook = settings?.facebookUrl ?? 'https://facebook.com/zozahrady'
+  const instagramHandle = socialHandle(instagram)
+  const facebookHandle = socialHandle(facebook)
 
   return (
     <section id="kontakt" className="scroll-mt-16 w-full py-20 px-4 sm:px-6 lg:px-8">
@@ -106,7 +119,7 @@ export function ContactSection({ settings, isSk }: ContactSectionProps) {
             </div>
             <div>
               <p className="text-xs uppercase tracking-wide text-muted-foreground">Instagram</p>
-              <p className="text-sm font-semibold text-foreground">@zozahrady</p>
+              <p className="text-sm font-semibold text-foreground">{instagramHandle}</p>
             </div>
           </a>
 
@@ -121,7 +134,7 @@ export function ContactSection({ settings, isSk }: ContactSectionProps) {
             </div>
             <div>
               <p className="text-xs uppercase tracking-wide text-muted-foreground">Facebook</p>
-              <p className="text-sm font-semibold text-foreground">zozahrady</p>
+              <p className="text-sm font-semibold text-foreground">{facebookHandle}</p>
             </div>
           </a>
         </div>
