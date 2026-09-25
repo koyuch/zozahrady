@@ -48,8 +48,8 @@ function socialHandle(url: string | undefined): string | null {
   if (!url) return null
   try {
     const path = new URL(url).pathname.split('/').filter(Boolean)
-    const handle = path[0]
-    return handle ? (handle.startsWith('@') ? handle : `@${handle}`) : null
+    const handle = path[0]?.replace(/^@/, '')
+    return handle || null
   } catch {
     return null
   }
