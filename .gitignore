@@ -34,11 +34,13 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Environment files
-.env
-.env*.local
+.env*
+!.env.example
+!.envrc
 
 # Vercel
 .vercel
+.neon
 
 # TypeScript
 *.tsbuildinfo
@@ -55,4 +57,3 @@ result-*
 
 # AI tool cache
 .claude/
-.neon
