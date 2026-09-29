@@ -6,6 +6,9 @@ import type { Review } from '@/payload-types'
 interface ReviewsSectionProps {
   reviews: Review[]
   isSk: boolean
+  anchorId?: string
+  heading?: string
+  intro?: string
 }
 
 function StarRating({ rating }: { rating: string }) {
@@ -22,21 +25,27 @@ function StarRating({ rating }: { rating: string }) {
   )
 }
 
-export function ReviewsSection({ reviews, isSk }: ReviewsSectionProps) {
+export function ReviewsSection({
+  reviews,
+  isSk,
+  anchorId = 'recenzie',
+  heading,
+  intro,
+}: ReviewsSectionProps) {
   if (reviews.length === 0) return null
 
   return (
     <section
-      id="recenzie"
+      id={anchorId}
       className="scroll-mt-16 w-full py-20 px-4 sm:px-6 lg:px-8 bg-secondary/30"
     >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12 space-y-3">
           <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-            {isSk ? 'Recenzie' : 'Recenze'}
+            {heading ?? (isSk ? 'Recenzie' : 'Recenze')}
           </h2>
           <p className="max-w-2xl mx-auto text-muted-foreground text-pretty">
-            {isSk ? 'Čo o nás hovoria naši zákazníci' : 'Co o nás říkají naši zákazníci'}
+            {intro ?? (isSk ? 'Čo o nás hovoria naši zákazníci' : 'Co o nás říkají naši zákazníci')}
           </p>
         </div>
 
