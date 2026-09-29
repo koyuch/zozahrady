@@ -30,7 +30,14 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], channel: 'chromium' },
+      use: {
+        ...devices['Desktop Chrome'],
+        // On NixOS the downloaded Chromium cannot start (unpatched dynamic
+        // libraries); point CHROMIUM_PATH at the system browser instead.
+        ...(process.env.CHROMIUM_PATH
+          ? { launchOptions: { executablePath: process.env.CHROMIUM_PATH } }
+          : { channel: 'chromium' as const }),
+      },
     },
   ],
   webServer: {
