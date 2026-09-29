@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import { LOCALES } from '@/lib/locale'
 import { getLocale } from '@/lib/locale-server'
 import { getPayloadClient } from '@/lib/payload'
+import { getMenuPages, toPayloadLocale } from '@/lib/pages'
 import { Navbar } from '@/components/navbar/Navbar'
 import './globals.css'
 
@@ -30,13 +31,22 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const localeConfig = LOCALES[locale]
 
   const payload = await getPayloadClient()
-  const siteSettings = await payload.findGlobal({ slug: 'site-settings' })
+  const payloadLocale = toPayloadLocale(locale)
+  const [siteSettings, menuPages] = await Promise.all([
+    payload.findGlobal({ slug: 'site-settings' }),
+    getMenuPages(payload, payloadLocale),
+  ])
+
+  const links = menuPages
+    .filter((page) => page.slug !== 'home')
+    .map((page) => ({ href: `/${page.slug}`, label: page.menuLabel ?? page.title }))
 
   return (
     <html lang={localeConfig.lang} className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen bg-background text-foreground antialiased font-sans flex flex-col">
         <Navbar
           initialLocale={locale}
+          links={links}
           instagramUrl={siteSettings?.instagramUrl ?? undefined}
           facebookUrl={siteSettings?.facebookUrl ?? undefined}
         />

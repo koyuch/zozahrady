@@ -5,8 +5,14 @@ import type { Locale } from '@/lib/locale'
 import { getLocale } from '@/lib/locale-server'
 import { LocaleSwitcher } from './LocaleSwitcher'
 
+export interface NavLink {
+  href: string
+  label: string
+}
+
 interface NavbarProps {
   initialLocale?: Locale
+  links?: NavLink[]
   instagramUrl?: string
   facebookUrl?: string
 }
@@ -49,20 +55,11 @@ function FacebookIcon({ className }: { className?: string }) {
 
 export async function Navbar({
   initialLocale,
+  links = [],
   instagramUrl = 'https://instagram.com',
   facebookUrl = 'https://facebook.com',
 }: NavbarProps) {
   const currentLocale = initialLocale ?? (await getLocale())
-
-  const isSk = currentLocale === 'sk_eur'
-
-  const navLinks = [
-    { href: '#kytice', label: isSk ? 'Kytice' : 'Kytice' },
-    { href: '#svadby', label: isSk ? 'Svadby' : 'Svatby' },
-    { href: '#recenzie', label: isSk ? 'Recenzie' : 'Recenze' },
-    { href: '#o-nas', label: isSk ? 'O farme' : 'O farmě' },
-    { href: '#kontakt', label: isSk ? 'Kontakt' : 'Kontakt' },
-  ]
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/80 bg-background/90 backdrop-blur-md transition-colors">
@@ -87,14 +84,14 @@ export async function Navbar({
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <a
+          {links.map((link) => (
+            <Link
               key={link.href}
               href={link.href}
               className="text-sm font-medium text-foreground/85 hover:text-primary transition-colors duration-150"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -124,14 +121,6 @@ export async function Navbar({
 
           {/* Locale & Currency Switcher */}
           <LocaleSwitcher currentLocale={currentLocale} />
-
-          {/* Admin Link */}
-          <Link
-            href="/admin"
-            className="hidden lg:inline-flex text-xs font-semibold px-2.5 py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-          >
-            Admin
-          </Link>
         </div>
       </div>
     </header>
