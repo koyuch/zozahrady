@@ -23,32 +23,7 @@ export async function seed(): Promise<void> {
       data: {
         title: 'Hlavná stránka',
         slug: 'home',
-        content: {
-          root: {
-            type: 'root',
-            format: '',
-            indent: 0,
-            version: 1,
-            direction: 'ltr',
-            children: [
-              {
-                type: 'paragraph',
-                format: '',
-                indent: 0,
-                version: 1,
-                direction: 'ltr',
-                children: [
-                  {
-                    type: 'text',
-                    format: 0,
-                    text: 'Vitajte na kvetinovej farme zozahrady. Pestujeme pre vás sezónne slovenské kvety s láskou k prírode.',
-                    version: 1,
-                  },
-                ],
-              },
-            ],
-          },
-        },
+        _status: 'published',
       },
     })
     payload.logger.info('  ✓ Created page: Hlavná stránka (slug: home)')
