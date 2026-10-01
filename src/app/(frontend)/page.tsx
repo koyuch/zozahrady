@@ -6,6 +6,9 @@ import { getPayloadClient } from '@/lib/payload'
 import { getPublishedPage, toPayloadLocale } from '@/lib/pages'
 import { RenderBlocks } from '@/components/blocks/RenderBlocks'
 
+// Render on demand — see [slug]/page.tsx for the rationale.
+export const dynamic = 'force-dynamic'
+
 async function getHomePage() {
   const locale = await getLocale()
   const payload = await getPayloadClient()

@@ -7,23 +7,13 @@ import { getPayloadClient } from '@/lib/payload'
 import { getPublishedPage, toPayloadLocale } from '@/lib/pages'
 import { RenderBlocks } from '@/components/blocks/RenderBlocks'
 
+// CMS pages render on demand: the build must never depend on the database
+// (a pending migration must not break `next build`), and admin edits should
+// go live without a redeploy.
+export const dynamic = 'force-dynamic'
+
 interface SlugPageProps {
   params: Promise<{ slug: string }>
-}
-
-export async function generateStaticParams() {
-  const payload = await getPayloadClient()
-  const { docs } = await payload.find({
-    collection: 'pages',
-    where: {
-      _status: { equals: 'published' },
-      slug: { not_equals: 'home' },
-    },
-    depth: 0,
-    limit: 1000,
-    draft: false,
-  })
-  return docs.map((doc) => ({ slug: doc.slug }))
 }
 
 export async function generateMetadata({ params }: SlugPageProps): Promise<Metadata> {
