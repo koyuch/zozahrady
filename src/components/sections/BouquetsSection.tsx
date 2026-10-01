@@ -7,6 +7,9 @@ interface BouquetsSectionProps {
   bouquets: Bouquet[]
   isSk: boolean
   currencySymbol: string
+  anchorId?: string
+  heading?: string
+  intro?: string
 }
 
 const SIZE_LABELS: Record<string, { sk: string; cz: string }> = {
@@ -15,22 +18,30 @@ const SIZE_LABELS: Record<string, { sk: string; cz: string }> = {
   Large: { sk: 'Veľká', cz: 'Velká' },
 }
 
-export function BouquetsSection({ bouquets, isSk, currencySymbol }: BouquetsSectionProps) {
+export function BouquetsSection({
+  bouquets,
+  isSk,
+  currencySymbol,
+  anchorId = 'kytice',
+  heading,
+  intro,
+}: BouquetsSectionProps) {
   if (bouquets.length === 0) return null
 
   const priceKey = isSk ? 'priceEUR' : 'priceCZK'
 
   return (
-    <section id="kytice" className="scroll-mt-16 w-full py-20 px-4 sm:px-6 lg:px-8">
+    <section id={anchorId} className="scroll-mt-16 w-full py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12 space-y-3">
           <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-            {isSk ? 'Naše kytice' : 'Naše kytice'}
+            {heading ?? (isSk ? 'Naše kytice' : 'Naše kytice')}
           </h2>
           <p className="max-w-2xl mx-auto text-muted-foreground text-pretty">
-            {isSk
-              ? 'Sezónne viazané kytice z našej záhrady. Každá kytica je jedinečná a viazaná s láskou.'
-              : 'Sezónní vázané kytice z naší zahrady. Každý kytice je jedinečný a vázaný s láskou.'}
+            {intro ??
+              (isSk
+                ? 'Sezónne viazané kytice z našej záhrady. Každá kytica je jedinečná a viazaná s láskou.'
+                : 'Sezónní vázané kytice z naší zahrady. Každý kytice je jedinečný a vázaný s láskou.')}
           </p>
         </div>
 

@@ -6,6 +6,9 @@ import type { SiteSetting } from '@/payload-types'
 interface ContactSectionProps {
   settings: SiteSetting | null
   isSk: boolean
+  anchorId?: string
+  heading?: string
+  subheading?: string
 }
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -55,7 +58,13 @@ function socialHandle(url: string | undefined): string | null {
   }
 }
 
-export function ContactSection({ settings, isSk }: ContactSectionProps) {
+export function ContactSection({
+  settings,
+  isSk,
+  anchorId = 'kontakt',
+  heading,
+  subheading,
+}: ContactSectionProps) {
   const email = settings?.contactEmail ?? 'ahoj@zozahrady.sk'
   const phone = settings?.contactPhone ?? '+421 900 000 000'
   const instagram = settings?.instagramUrl ?? 'https://instagram.com/zozahrady'
@@ -64,16 +73,17 @@ export function ContactSection({ settings, isSk }: ContactSectionProps) {
   const facebookHandle = socialHandle(facebook)
 
   return (
-    <section id="kontakt" className="scroll-mt-16 w-full py-20 px-4 sm:px-6 lg:px-8">
+    <section id={anchorId} className="scroll-mt-16 w-full py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12 space-y-3">
           <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-            {isSk ? 'Kontakt' : 'Kontakt'}
+            {heading ?? 'Kontakt'}
           </h2>
           <p className="text-muted-foreground text-pretty">
-            {isSk
-              ? 'Máte otázku alebo chcete objednať? Ozvite sa nám.'
-              : 'Máte otázku nebo chcete objednat? Ozvěte se nám.'}
+            {subheading ??
+              (isSk
+                ? 'Máte otázku alebo chcete objednať? Ozvite sa nám.'
+                : 'Máte otázku nebo chcete objednat? Ozvěte se nám.')}
           </p>
         </div>
 

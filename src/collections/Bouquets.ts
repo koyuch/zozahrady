@@ -14,11 +14,13 @@ export const Bouquets: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
       label: 'Názov kytice',
     },
     {
       name: 'description',
       type: 'textarea',
+      localized: true,
       label: 'Popis kytice',
     },
     {

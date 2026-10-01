@@ -47,6 +47,8 @@ pnpm payload migrate / migrate:status / migrate:create <name>
 - NEVER use `payload push` against a shared/production database — it bypasses review and history and can drop data.
 - Keep `payload migrate` in the `build` script ahead of `next build` — Vercel applies pending
   migrations on every deploy, so schema changes roll out with the code.
+- If `payload_migrations` contains a `dev` row (batch `-1`) from an earlier dev `push`,
+  `payload migrate` prompts and skips in CI — delete that row before deploying new migrations.
 - **Production DB:** Neon `production` branch of project `green-forest-59995045` (see `.neon`),
   database `zozahrady`; its connection string lives only in Vercel env vars.
 - Fresh Neon branches start with an empty schema: rebuild with `pnpm payload migrate`
@@ -60,13 +62,14 @@ pnpm payload migrate / migrate:status / migrate:create <name>
 
 ## Localization
 
-- Default: Slovak (SK) / EUR (€); alternative: Czech (CZ) / CZK (Kč).
-- Cookie-based toggle in the UI (`sk_eur` vs `cz_czk`).
+- Payload-native localization: `localization: { locales: ['sk', 'cs'], defaultLocale: 'sk' }` in `payload.config.ts` (fallback to `sk` for untranslated fields).
+- Frontend cookie locale `sk_eur` / `cz_czk` maps to Payload locales `sk` / `cs` via `toPayloadLocale()` in `src/lib/pages.ts` (`LOCALES[].lang` is already the Payload code).
+- Localized content: Pages (incl. block texts) and Bouquets (`title`, `description`). Reviews are NOT localized (user-generated). UI micro-labels keep `isSk` ternaries.
 
 ## Payload Collections (schema summary)
 
-1. **Pages** — `title`, `slug`, `heroImage`, `content` (richText)
-2. **Bouquets** — `title`, `description`, `images` (array), `isAvailable`, `variants[]`
+1. **Pages** — localized `title`, `menuLabel`, `seoTitle`, `seoDescription`; shared `slug` (unique, one URL per page), `heroImage`, `showInMenu`, `menuOrder`; `layout` blocks field (shared structure, localized inner texts) with blocks `Hero`, `BouquetsList`, `WeddingCta`, `ReviewsList`, `RichText`, `ContactInfo` (`src/blocks/`); `versions: { drafts: true }` — frontend queries filter `_status: 'published'`, `draft: false`.
+2. **Bouquets** — localized `title`, `description`; shared `images` (array), `isAvailable`, `variants[]`
    (`size`: Small/Medium/Large, `priceEUR`, `priceCZK`)
 3. **SiteAlerts** — `message`, `isActive`, `type` (info/warning)
 4. **WeddingInquiries** — `customerName`, `email`, `phone`, `weddingDate`, `venue`, `budget`,
@@ -75,6 +78,12 @@ pnpm payload migrate / migrate:status / migrate:create <name>
    default Pending). Public frontend API must only query `status === 'Approved'`.
 6. **SiteSettings** (global) — `contactEmail`, `contactPhone`, `instagramUrl`, `facebookUrl`,
    `showVykvetBadge`, `showBeskydyBadge`
+
+## Frontend routing & menu
+
+- `/` renders the published page with slug `home`; `/home` permanently redirects to `/`. Other pages render at real paths (`/kontakt`, `/o-nas`, …) via `src/app/(frontend)/[slug]/page.tsx`; unknown slugs 404.
+- Pages are rendered by `src/components/blocks/RenderBlocks.tsx`; block components fetch their own data (bouquets, Approved reviews, SiteSettings) with the current Payload locale.
+- The navbar menu is data-driven: root layout queries published pages with `showInMenu` ordered by `menuOrder`, label = `menuLabel ?? title`. The `home` page is excluded (logo links `/`). Admin is reachable only directly at `/admin`.
 
 ## Deep docs (load on demand)
 
