@@ -58,6 +58,9 @@ Only run these manually when fixing a hook/CI failure in something you just chan
 - Schema evolution MUST use Payload migrations: change collections/config in code, then
   `pnpm payload migrate:create <name>` → **review the generated SQL** in `src/migrations/` →
   `pnpm payload migrate`. Commit migration files together with the config changes.
+- `src/payload-types.ts` is **generated** (`pnpm payload generate:types`; Payload also regenerates it on
+  dev/test runs). Never hand-edit it; it's excluded from lint/format. When it changes, review the diff
+  and commit it together with the schema/config change (or Payload version bump) that caused it.
 - NEVER use `payload push` against a shared/production database — it bypasses review and history and can drop data.
 - Keep `payload migrate` in the `build` script ahead of `next build` — Vercel applies pending
   migrations on every deploy, so schema changes roll out with the code.
