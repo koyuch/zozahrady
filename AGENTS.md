@@ -21,8 +21,7 @@ Human setup detail lives in [README.md](README.md); on-demand deep docs live in 
 ## Workflow Commands
 
 Shell tools (`pnpm`, `node`) come from the local Nix flake. If your shell doesn't have them,
-load the dev environment first: `eval "$(direnv export bash)" && <command>` (with optional "prefix" `direnv allow` - if needed after .envrc change),
-or wrap commands with `nix develop -c <command>` / `direnv exec . <command>`.
+load the dev environment first: `eval "$(direnv export bash)" && <command>` (with optional "prefix" `direnv allow &&` - if needed after .envrc change/ copying to new directory).
 
 If a specific tool is missing from the flake, either add it to `flake.nix` (when it's useful
 for future sessions too) or run it one-off via `nix shell nixpkgs#<tool> -c <command>`.
