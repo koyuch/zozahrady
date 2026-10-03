@@ -45,4 +45,9 @@
       // pnpm seed, pnpm payload migrate:create, pnpm payload migrate — keep asking
     },
   },
+  "indexing": {
+    "enabled": true,
+    "provider": "kilo",
+    "model": "mistralai/mistral-embed-2312"
+  },
 }
