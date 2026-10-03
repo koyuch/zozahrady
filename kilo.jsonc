@@ -48,6 +48,6 @@
   "indexing": {
     "enabled": true,
     "provider": "kilo",
-    "model": "mistralai/mistral-embed-2312"
+    "model": "mistralai/mistral-embed-2312",
   },
 }

@@ -45,11 +45,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
-
-      - name: Type-check
-        run: pnpm type-check
+      - name: Check (lint, types, format)
+        run: pnpm check
 
       - name: Apply migrations
         run: pnpm payload migrate

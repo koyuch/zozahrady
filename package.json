@@ -7,6 +7,7 @@
   "packageManager": "pnpm@11.25.0",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" payload migrate --force-accept-warning && cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "check": "pnpm lint && pnpm type-check && prettier --check .",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",

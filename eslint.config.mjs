@@ -23,7 +23,17 @@ const eslintConfig = [
     },
   },
   {
-    ignores: ['.next/', 'src/payload-types.ts', 'src/payload-generated-schema.ts', '.direnv/', '.pgdata/'],
+    ignores: [
+      '.next/',
+      'src/payload-types.ts',
+      'src/payload-generated-schema.ts',
+      '.direnv/',
+      '.pgdata/',
+      // Kilo agent state & local worktrees (untracked, contain full repo copies)
+      '.kilo/',
+      'playwright-report/',
+      'test-results/',
+    ],
   },
 ]
 
