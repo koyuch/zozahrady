@@ -11,13 +11,13 @@
 | Database        | PostgreSQL (Local via Nix shell / Neon.tech serverless for prod) |
 | Styling         | Tailwind CSS + shadcn/ui                                         |
 | Package Manager | pnpm                                                             |
-| Runtime         | Node.js 26                                                       |
+| Runtime         | Node.js 24 LTS                                                   |
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Nix](https://nixos.org/) with flakes and `direnv` enabled, **or** Node.js 26 + pnpm installed manually
+- [Nix](https://nixos.org/) with flakes and `direnv` enabled, **or** Node.js 24 + pnpm installed manually
 - A local PostgreSQL database (auto-managed in `flake.nix`) or [Neon.tech](https://neon.tech) PostgreSQL database
 
 ### 1. Dev Shell (NixOS / Nix + direnv)
@@ -27,7 +27,7 @@ cd zozahrady
 direnv allow
 ```
 
-This automatically starts a local PostgreSQL instance (`.pgdata/`) and provides Node 26 + pnpm.
+This automatically starts a local PostgreSQL instance (`.pgdata/`) and provides Node 24 + pnpm.
 
 ### 2. Install dependencies
 
@@ -65,7 +65,7 @@ Creates the Payload schema (tables for all collections, globals, and relations) 
 pnpm seed
 ```
 
-Populates: 1 page ("Hlavná stránka"), 3 bouquets (Small/Medium/Large variants with EUR/CZK), 3 reviews (2 approved, 1 pending), and 1 SiteSettings document.
+Populates: 6 localized pages (`home`, `kytice`, `svadby`, `recenzie`, `o-nas`, `kontakt` — SK + CS), 3 bouquets (Small/Medium/Large variants with EUR/CZK), 3 reviews (2 approved, 1 pending), and 1 SiteSettings document.
 
 ## Migrations
 
@@ -87,6 +87,14 @@ Rules of thumb:
 - Applied migrations are recorded in the target database (`payload_migrations` table), so re-running `pnpm payload migrate` is safe.
 - A fresh database (new Neon branch, new local cluster) is brought up with `pnpm payload migrate`, optionally followed by `pnpm seed` for mock data.
 - Commit migration files together with the collection/config changes they were generated from.
+
+## Checks & tests
+
+- `pnpm check` — canonical full-repo check: ESLint + `tsc --noEmit` + `prettier --check` (what CI runs; keep it green before pushing).
+- `pnpm test:int` — Vitest integration tests.
+- `pnpm test:e2e` — Playwright e2e (boots `pnpm dev`; needs a migrated + seeded database).
+
+Automation: pre-commit lint-staged fixes/formats/type-checks staged files, pre-push runs `test:int`. GitHub Actions run `pnpm check` + migrations + `test:int` on every PR ([`ci.yml`](.github/workflows/ci.yml)), plus Playwright e2e on PRs touching UI paths ([`e2e.yml`](.github/workflows/e2e.yml)).
 
 ## Environment Variables
 

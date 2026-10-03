@@ -12,6 +12,7 @@ Human setup detail lives in [README.md](README.md); on-demand deep docs live in 
 - **Package Manager:** `pnpm` (enforced via corepack and package.json)
 - **Runtime:** Node.js v24 LTS (`.nvmrc` + NixOS `flake.nix`; matches Vercel's default runtime)
 - **Pre-commit:** Husky + lint-staged (ESLint, Prettier, `tsc --noEmit`)
+- **Pre-push:** Husky (`pnpm test:int`)
 
 ## Dependency Management
 
@@ -29,14 +30,28 @@ for future sessions too) or run it one-off via `nix shell nixpkgs#<tool> -c <com
 ```bash
 pnpm dev          # dev server (long-running, don't run without asking)
 pnpm build        # payload migrate && next build (applies migrations!)
+pnpm check        # canonical full check: lint + type-check + prettier --check (what CI runs)
 pnpm lint         # ESLint
 pnpm type-check   # tsc --noEmit
 pnpm test         # test:int && test:e2e
 pnpm test:int     # vitest integration tests
-pnpm test:e2e     # Playwright e2e (only when UI flows changed)
+pnpm test:e2e     # Playwright e2e (also runs in CI on UI-path changes)
 pnpm seed         # mock data — writes to whatever DATABASE_URI points at
 pnpm payload migrate / migrate:status / migrate:create <name>
 ```
+
+### Auto-triggered checks (don't re-run manually)
+
+These run automatically on git events or in CI — do NOT run them again per-session:
+
+| Trigger                                           | Runs                                                                 |
+| ------------------------------------------------- | -------------------------------------------------------------------- |
+| `pre-commit` (lint-staged)                        | `eslint --fix`, `prettier --write`, `tsc --noEmit` (on staged files) |
+| `pre-push`                                        | `pnpm test:int`                                                      |
+| GH Actions CI (`main` push + every PR)            | `pnpm check`, `pnpm payload migrate`, `pnpm test:int`                |
+| GH Actions e2e (`main` push + PRs, UI paths only) | `pnpm payload migrate`, `pnpm seed`, `pnpm test:e2e`                 |
+
+Only run these manually when fixing a hook/CI failure in something you just changed.
 
 ## Database Migrations & Deploys
 
@@ -55,7 +70,7 @@ pnpm payload migrate / migrate:status / migrate:create <name>
 
 ## Theme & Styling
 
-- All design tokens MUST be defined as CSS variables in `app/globals.css` (shadcn/ui convention).
+- All design tokens MUST be defined as CSS variables in `src/app/globals.css` (shadcn/ui convention).
 - NEVER hardcode hex colors in component utility classes.
 - Initial theme (Botanical): `--background` off-white `#FAF9F6`, `--primary` sage green `#4A5D23`, `--foreground` charcoal `#1F2937`; fonts: Playfair Display (headings), Inter (body/UI).
 
