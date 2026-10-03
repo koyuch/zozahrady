@@ -44,5 +44,7 @@ export default defineConfig({
     command: 'pnpm dev',
     reuseExistingServer: true,
     url: 'http://localhost:3000',
+    // Cold boot in CI (Next dev + Payload + first page compile) can exceed the 60s default.
+    timeout: 180_000,
   },
 })
